@@ -13,6 +13,6 @@ namespace TodoServer.Models
         public string Title { get; set; }
         public string Desc { get; set; }
         public bool MarkedAsDone { get; set; } = false;
-        public DateTime? CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
 }
