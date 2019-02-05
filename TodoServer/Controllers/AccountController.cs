@@ -54,11 +54,11 @@ namespace TodoServer.Controllers
         // GET api/Account/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
-        public async UserInfoViewModel GetUserInfo()
+        public UserInfoViewModel GetUserInfo()
         {
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
             
-            IdentityUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            IdentityUser user = UserManager.FindById(User.Identity.GetUserId());
 
             return new UserInfoViewModel
             {
