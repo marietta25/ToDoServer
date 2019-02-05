@@ -96,6 +96,7 @@ namespace TodoServer.Controllers
             return CreatedAtRoute("DefaultApi", new { id = task.Id }, task);
         }
 
+        /*
         // DELETE: api/Tasks/5
         [ResponseType(typeof(Task))]
         public IHttpActionResult DeleteTask(int id)
@@ -112,6 +113,25 @@ namespace TodoServer.Controllers
             db.SaveChanges();
 
             return Ok(task);
+        }
+        */
+        
+        // DELETE: api/Tasks/5
+        [ResponseType(typeof(void))]
+        public IHttpActionResult DeleteTask(int id)
+        {
+            string owner = HttpContext.Current.User.Identity.Name;
+
+            Task task = db.Tasks.FirstOrDefault(_task => _task.OwnerId == owner && _task.Id == id);
+            if (task == null)
+            {
+                return NotFound();
+            }
+
+            db.Tasks.Remove(task);
+            db.SaveChanges();
+
+            return StatusCode(HttpStatusCode.NoContent);
         }
 
         protected override void Dispose(bool disposing)
