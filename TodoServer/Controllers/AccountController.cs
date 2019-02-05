@@ -332,7 +332,7 @@ namespace TodoServer.Controllers
             {
                 UserName = model.Email,
                 Email = model.Email,
-                FirstName = model.Firstname,
+                Firstname = model.Firstname,
                 Lastname = model.Lastname
             };
 
