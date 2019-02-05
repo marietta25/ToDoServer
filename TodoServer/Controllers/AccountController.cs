@@ -64,6 +64,7 @@ namespace TodoServer.Controllers
             {
                 Email = User.Identity.GetUserName(),
                 Firstname = user.Firstname,
+                Lastname = user.Lastname,
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
             };
