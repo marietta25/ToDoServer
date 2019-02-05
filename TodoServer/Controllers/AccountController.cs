@@ -57,10 +57,13 @@ namespace TodoServer.Controllers
         public UserInfoViewModel GetUserInfo()
         {
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+            
+            IdentityUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
 
             return new UserInfoViewModel
             {
                 Email = User.Identity.GetUserName(),
+                Firstname = user.Firstname,
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
             };
