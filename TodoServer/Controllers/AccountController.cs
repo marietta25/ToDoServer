@@ -58,7 +58,7 @@ namespace TodoServer.Controllers
         {
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
             
-            IdentityUser user = UserManager.FindById(User.Identity.GetUserId());
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
 
             return new UserInfoViewModel
             {
