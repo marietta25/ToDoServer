@@ -41,6 +41,7 @@ namespace TodoServer.Controllers
             return Ok(task);
         }
 
+        /*
         // PUT: api/Tasks/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutTask(int id, Task task)
@@ -78,6 +79,45 @@ namespace TodoServer.Controllers
             }
 
             return StatusCode(HttpStatusCode.NoContent);
+        }
+        */
+        
+        // PUT: api/Tasks/5
+        [ResponseType(typeof(Task))]
+        public IHttpActionResult PutTask(int id, Task task)
+        {
+            string owner = HttpContext.Current.User.Identity.Name;
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            
+            if (db.Tasks.AsNoTracking().FirstOrDefault(_task => _task.OwnerId == owner && _task.Id == id) == null)
+            {
+                return BadRequest();
+            }
+            task.OwnerId = owner;
+            db.Entry(task).State = EntityState.Modified;
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!TaskExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return Ok(task);
         }
 
         // POST: api/Tasks
