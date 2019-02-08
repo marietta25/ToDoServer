@@ -35,52 +35,15 @@ namespace TodoServer.Controllers
 
             if (task == null)
             {
-                return NotFound();
+                var message = new HttpResponseMessage(HttpStatusCode.NotFound)
+                {
+                    Content = new StringContent("Task was not found")
+                };
+                throw new HttpResponseException(message);
             }
 
             return Ok(task);
         }
-
-        /*
-        // PUT: api/Tasks/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutTask(int id, Task task)
-        {
-            string owner = HttpContext.Current.User.Identity.Name;
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            
-
-            if (db.Tasks.AsNoTracking().FirstOrDefault(_task => _task.OwnerId == owner && _task.Id == id) == null)
-            {
-                return BadRequest();
-            }
-            task.OwnerId = owner;
-            db.Entry(task).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TaskExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-        */
         
         // PUT: api/Tasks/5
         [ResponseType(typeof(Task))]
@@ -96,7 +59,11 @@ namespace TodoServer.Controllers
             
             if (db.Tasks.AsNoTracking().FirstOrDefault(_task => _task.OwnerId == owner && _task.Id == id) == null)
             {
-                return BadRequest();
+                var message = new HttpResponseMessage(HttpStatusCode.NotFound)
+                {
+                    Content = new StringContent("Task was not found")
+                };
+                throw new HttpResponseException(message);
             }
             task.OwnerId = owner;
             db.Entry(task).State = EntityState.Modified;
@@ -135,26 +102,6 @@ namespace TodoServer.Controllers
 
             return CreatedAtRoute("DefaultApi", new { id = task.Id }, task);
         }
-
-        /*
-        // DELETE: api/Tasks/5
-        [ResponseType(typeof(Task))]
-        public IHttpActionResult DeleteTask(int id)
-        {
-            string owner = HttpContext.Current.User.Identity.Name;
-
-            Task task = db.Tasks.FirstOrDefault(_task => _task.OwnerId == owner && _task.Id == id);
-            if (task == null)
-            {
-                return NotFound();
-            }
-
-            db.Tasks.Remove(task);
-            db.SaveChanges();
-
-            return Ok(task);
-        }
-        */
         
         // DELETE: api/Tasks/5
         [ResponseType(typeof(void))]
@@ -165,7 +112,11 @@ namespace TodoServer.Controllers
             Task task = db.Tasks.FirstOrDefault(_task => _task.OwnerId == owner && _task.Id == id);
             if (task == null)
             {
-                return NotFound();
+                var message = new HttpResponseMessage(HttpStatusCode.NotFound)
+                {
+                    Content = new StringContent("Task was not found")
+                };
+                throw new HttpResponseException(message);
             }
 
             db.Tasks.Remove(task);
